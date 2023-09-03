@@ -1,5 +1,4 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import {cookies} from 'next/headers'
 import AuthButtonServer from './auth-button-server';
@@ -11,7 +10,7 @@ export default async function Home() {
     redirect('/login')
   }
   const {data: posts} = await supabase.from('posts').
-  select();
+  select("*, profiles(*)");
   return (
     <>
     <AuthButtonServer />
