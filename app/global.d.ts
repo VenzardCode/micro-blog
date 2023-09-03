@@ -1,5 +1,14 @@
 import { Database as DB } from '@/lib/database.types';
 
-declare global{
-    type Database= DB;
+type Post = DB['public']['Tables']['posts']['Row']
+type Profile = DB['public']['Tables']['profiles']['Row']
+
+
+declare global {
+    type Database = DB;
+    type PostWithAutor = Post & {
+        author: Profile;
+        likes: number;
+        user_has_liked_post: boolean;
+    }
 }
