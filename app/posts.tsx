@@ -17,17 +17,26 @@ export default function Posts({ posts }: { posts: PostWithAutor[] }) {
     const supabase = createClientComponentClient();
     const router = useRouter();
     useEffect(() => {
-        const channel = supabase.channel('realtime posts').on('postgres_changes', {
-            event: '*',
-            schema: 'public',
-            table: 'poasts'
-        }, (payload) => {
-            router.refresh();
-        }).subscribe();
+        const channel = supabase
+          .channel("realtime posts")
+          .on(
+            "postgres_changes",
+            {
+              event: "*",
+              schema: "public",
+              table: "posts",
+            },
+            (payoad) => {
+              router.refresh();
+            }
+          )
+          .subscribe();
+    
         return () => {
-            supabase.removeChannel(channel);
-        }
-    }, [supabase, router])
+          supabase.removeChannel(channel);
+        };
+      }, [supabase, router]);
+      
     return optimisticPosts.map((post) => (
         <div key={post.id}>
             <p>
